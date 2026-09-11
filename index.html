@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MRO Optix | Turnaround material review</title>
+  <meta name="description" content="Review turnaround material requests, engineering decisions, and supply readiness in one Excel workflow.">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #eef4fb;
+      --muted: #9fb0c3;
+      --line: #263a50;
+      --panel: #101d2a;
+      --panel-2: #142638;
+      --navy: #07121d;
+      --blue: #3aa7ff;
+      --amber: #f6b84a;
+      --green: #55d69e;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(rgba(58, 167, 255, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(58, 167, 255, .035) 1px, transparent 1px),
+        radial-gradient(circle at 80% -10%, #183957 0, transparent 34rem),
+        var(--navy);
+      background-size: 36px 36px, 36px 36px, auto, auto;
+      line-height: 1.55;
+    }
+    a { color: inherit; }
+    .shell { width: min(1160px, calc(100% - 2rem)); margin: 0 auto; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 0; }
+    .brand { display: flex; align-items: center; gap: .7rem; font-weight: 800; letter-spacing: .02em; }
+    .mark { width: 34px; height: 34px; border: 1px solid var(--blue); display: grid; place-items: center; color: var(--blue); }
+    .nav-note { color: var(--muted); font-size: .88rem; }
+    .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 3.5rem; align-items: center; min-height: 650px; padding: 4.5rem 0 5rem; }
+    .eyebrow { color: var(--blue); text-transform: uppercase; letter-spacing: .16em; font-size: .78rem; font-weight: 800; }
+    h1 { font-size: clamp(2.65rem, 6vw, 5.5rem); line-height: .98; letter-spacing: -.055em; margin: 1rem 0 1.4rem; max-width: 12ch; }
+    .lead { color: #c4d1df; font-size: clamp(1.05rem, 2vw, 1.27rem); max-width: 62ch; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 2rem; align-items: center; }
+    .cta { border: 0; background: var(--amber); color: #101820; font: inherit; font-weight: 800; padding: .95rem 1.2rem; border-radius: 3px; cursor: not-allowed; opacity: .88; }
+    .cta-note { color: var(--muted); font-size: .85rem; max-width: 32ch; }
+    .workbook { position: relative; border: 1px solid #35506a; background: linear-gradient(145deg, #16283a, #0c1722); padding: 1rem; box-shadow: 0 35px 70px rgba(0,0,0,.35); }
+    .window { border: 1px solid var(--line); background: #0b1621; }
+    .window-bar { height: 34px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 6px; padding: 0 .75rem; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #456076; }
+    .sheet { padding: 1rem; }
+    .sheet-head { display: grid; grid-template-columns: 1.2fr .9fr .9fr; gap: 6px; margin-bottom: 6px; }
+    .cell, .row span { min-height: 34px; border: 1px solid #263c52; padding: .55rem .6rem; font-size: .72rem; color: #b9c7d5; }
+    .cell { background: #173554; color: white; font-weight: 700; }
+    .row { display: grid; grid-template-columns: 1.2fr .9fr .9fr; gap: 6px; margin-top: 6px; }
+    .row .warn { color: #ffcc72; background: rgba(246,184,74,.09); }
+    .row .good { color: #69e7af; background: rgba(85,214,158,.08); }
+    .row .review { color: #8dc9ff; }
+    .signal { position: absolute; right: -20px; bottom: 34px; padding: .7rem .85rem; background: var(--amber); color: #101820; font-weight: 800; font-size: .78rem; }
+    section { border-top: 1px solid var(--line); padding: 5.5rem 0; }
+    .section-head { display: grid; grid-template-columns: .9fr 1.1fr; gap: 2rem; align-items: end; margin-bottom: 2.5rem; }
+    h2 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.08; letter-spacing: -.04em; margin: 0; }
+    .section-head p { color: var(--muted); margin: 0; max-width: 58ch; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .card { border: 1px solid var(--line); background: rgba(16,29,42,.86); padding: 1.35rem; min-height: 180px; }
+    .num { color: var(--blue); font: 800 .8rem/1 monospace; }
+    .card h3 { margin: 1.4rem 0 .6rem; font-size: 1.08rem; }
+    .card p { color: var(--muted); margin: 0; font-size: .95rem; }
+    .fit { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .fit-box { border: 1px solid var(--line); padding: 1.5rem; background: var(--panel); }
+    .fit-box h3 { margin-top: 0; }
+    .fit-box ul { padding-left: 1.15rem; color: var(--muted); }
+    .fit-box li { margin: .65rem 0; }
+    .limit { border-left: 3px solid var(--amber); }
+    .arabic { direction: rtl; text-align: right; border: 1px solid #31506b; background: linear-gradient(135deg,#10273a,#0d1a27); padding: 2rem; margin-top: 2rem; }
+    .arabic p { color: #c4d1df; font-size: 1.07rem; margin-bottom: 0; }
+    footer { padding: 2.5rem 0 4rem; color: var(--muted); font-size: .87rem; display: flex; justify-content: space-between; gap: 1rem; }
+    @media (max-width: 820px) {
+      .hero, .section-head, .fit { grid-template-columns: 1fr; }
+      .hero { padding-top: 2.5rem; min-height: auto; }
+      .grid { grid-template-columns: 1fr; }
+      .nav-note { display: none; }
+      .signal { right: -7px; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav aria-label="Primary">
+      <div class="brand"><span class="mark">M</span>MRO Optix</div>
+      <div class="nav-note">Public product preview · payments disabled</div>
+    </nav>
+
+    <main>
+      <div class="hero">
+        <div>
+          <div class="eyebrow">Turnaround material review for Excel</div>
+          <h1>See the material decision before the shortage.</h1>
+          <p class="lead">Bring requests, comparable turnaround history, stock, and open purchase orders into one review. MRO Optix separates the model proposal, engineering decision, and supply position by the need date.</p>
+          <div class="cta-row">
+            <button class="cta" type="button" disabled>Request a pilot demonstration</button>
+            <span class="cta-note">Contact and checkout remain disabled until the corrected release and seller account are approved.</span>
+          </div>
+        </div>
+
+        <div class="workbook" aria-label="Illustrative workbook review queue">
+          <div class="window">
+            <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="sheet">
+              <div class="sheet-head"><div class="cell">Material review</div><div class="cell">Engineering</div><div class="cell">Readiness</div></div>
+              <div class="row"><span>Bearing kit</span><span class="review">Review quantity</span><span class="good">Stock allocated</span></div>
+              <div class="row"><span>Seal set</span><span class="good">Mandatory scope</span><span class="warn">Late PO</span></div>
+              <div class="row"><span>Drive coupling</span><span class="review">Decision required</span><span class="warn">Purchase need</span></div>
+            </div>
+          </div>
+          <div class="signal">Need-date supply view</div>
+        </div>
+      </div>
+
+      <section>
+        <div class="section-head">
+          <h2>One review path from request to action.</h2>
+          <p>Designed for planners and engineering reviewers who already work from Excel extracts and need a disciplined view of quantity evidence and supply readiness.</p>
+        </div>
+        <div class="grid">
+          <article class="card"><div class="num">01</div><h3>Resolve input exceptions</h3><p>Expose missing identifiers, unit mismatches, unknown material/plant keys, and incomplete records before quantity discussion.</p></article>
+          <article class="card"><div class="num">02</div><h3>Review demand evidence</h3><p>Compare request quantities with installed BOM and comparable-event history while protecting mandatory and critical-spare decisions.</p></article>
+          <article class="card"><div class="num">03</div><h3>See supply by need date</h3><p>Allocate usable stock and eligible open POs across jobs, then distinguish purchase need from late supply that requires expediting.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Built for a focused first pilot.</h2>
+          <p>The initial release is intentionally narrow. It supports structured material review; it does not claim live ERP integration or autonomous engineering approval.</p>
+        </div>
+        <div class="fit">
+          <div class="fit-box">
+            <h3>Good pilot fit</h3>
+            <ul>
+              <li>Microsoft 365 Excel for Windows</li>
+              <li>One named industrial site and a small internal review team</li>
+              <li>Accessible request, master, history, BOM, stock, and PO extracts</li>
+              <li>Engineering reviewer available to confirm material decisions</li>
+            </ul>
+          </div>
+          <div class="fit-box limit">
+            <h3>Release limits</h3>
+            <ul>
+              <li>Maximum 1,500 request lines in the first supported release</li>
+              <li>Up to eight comparable event slots</li>
+              <li>One open PO quantity and due date per material/plant</li>
+              <li>No SAP, Maximo, or Oracle live connector</li>
+            </ul>
+          </div>
+        </div>
+        <div class="arabic">
+          <h2>راجع طلبات مواد التوقف وحدّد نواقص التوريد قبل موعد الاحتياج.</h2>
+          <p>يجمع MRO Optix قائمة المواد وسجل الاستهلاك والمخزون وأوامر الشراء في مسار مراجعة واحد داخل Excel. الأداة تدعم قرار المهندس ولا تعتمد الكميات أو تعدّل نظام ERP تلقائيًا.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>MRO Optix · Corrected pilot release in preparation</span>
+      <span>No employer endorsement, guaranteed savings, or customer data upload claimed.</span>
+    </footer>
+  </div>
+</body>
+</html>
