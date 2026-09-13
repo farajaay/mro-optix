@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MRO Optix | Turnaround material review</title>
   <meta name="description" content="Review turnaround material requests, engineering decisions, and supply readiness in one Excel workflow.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%2307121d'/%3E%3Cpath d='M14 47V17h9l9 15 9-15h9v30h-8V29L32 45 22 29v18z' fill='%233aa7ff'/%3E%3C/svg%3E">
   <style>
     :root {
       color-scheme: dark;
@@ -72,11 +73,16 @@
     .fit-box ul { padding-left: 1.15rem; color: var(--muted); }
     .fit-box li { margin: .65rem 0; }
     .limit { border-left: 3px solid var(--amber); }
-    .arabic { direction: rtl; text-align: right; border: 1px solid #31506b; background: linear-gradient(135deg,#10273a,#0d1a27); padding: 2rem; margin-top: 2rem; }
-    .arabic p { color: #c4d1df; font-size: 1.07rem; margin-bottom: 0; }
+    .offer { display: grid; grid-template-columns: .72fr 1.28fr; gap: 1rem; align-items: stretch; }
+    .price { border: 1px solid #47708f; background: linear-gradient(145deg, #17324a, #0e1d2a); padding: 2rem; }
+    .price strong { display: block; font-size: clamp(2.6rem, 6vw, 4.8rem); line-height: 1; letter-spacing: -.05em; margin: .8rem 0; }
+    .price p, .license p { color: var(--muted); }
+    .license { border: 1px solid var(--line); background: var(--panel); padding: 2rem; }
+    .license ul { color: var(--muted); padding-left: 1.2rem; }
+    .license li { margin: .6rem 0; }
     footer { padding: 2.5rem 0 4rem; color: var(--muted); font-size: .87rem; display: flex; justify-content: space-between; gap: 1rem; }
     @media (max-width: 820px) {
-      .hero, .section-head, .fit { grid-template-columns: 1fr; }
+      .hero, .section-head, .fit, .offer { grid-template-columns: 1fr; }
       .hero { padding-top: 2.5rem; min-height: auto; }
       .grid { grid-template-columns: 1fr; }
       .nav-note { display: none; }
@@ -89,18 +95,18 @@
   <div class="shell">
     <nav aria-label="Primary">
       <div class="brand"><span class="mark">M</span>MRO Optix</div>
-      <div class="nav-note">Public product preview · payments disabled</div>
+      <div class="nav-note">English individual edition · checkout pending verification</div>
     </nav>
 
     <main>
       <div class="hero">
         <div>
-          <div class="eyebrow">Turnaround material review for Excel</div>
+          <div class="eyebrow">Individual licence for English-speaking professionals</div>
           <h1>See the material decision before the shortage.</h1>
           <p class="lead">Bring requests, comparable turnaround history, stock, and open purchase orders into one review. MRO Optix separates the model proposal, engineering decision, and supply position by the need date.</p>
           <div class="cta-row">
-            <button class="cta" type="button" disabled>Request a pilot demonstration</button>
-            <span class="cta-note">Contact and checkout remain disabled until the corrected release and seller account are approved.</span>
+            <button class="cta" type="button" disabled>Buy for $299 — opening soon</button>
+            <span class="cta-note">One-time purchase. Checkout opens after release verification and seller approval.</span>
           </div>
         </div>
 
@@ -132,6 +138,32 @@
 
       <section>
         <div class="section-head">
+          <h2>A focused licence for one professional.</h2>
+          <p>Start with one user and one industrial site. Keep the purchased version without a recurring subscription.</p>
+        </div>
+        <div class="offer">
+          <div class="price">
+            <div class="eyebrow">Launch price</div>
+            <strong>$299</strong>
+            <p>One-time payment. Applicable taxes are calculated at checkout.</p>
+          </div>
+          <div class="license">
+            <h3>MRO Optix Individual</h3>
+            <ul>
+              <li>One named user within one organisation and one named site</li>
+              <li>Blank and fictional demonstration workbooks</li>
+              <li>CSV/XLSX importer, sample files, quick-start guide, and data dictionary</li>
+              <li>Perpetual use of the purchased version</li>
+              <li>Minor corrections and updates for 12 months</li>
+              <li>Product-use support for 90 days</li>
+            </ul>
+            <p>Consulting, client-to-client reuse, ERP integration, and engineering approval services are not included.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
           <h2>Built for a focused first pilot.</h2>
           <p>The initial release is intentionally narrow. It supports structured material review; it does not claim live ERP integration or autonomous engineering approval.</p>
         </div>
@@ -155,15 +187,11 @@
             </ul>
           </div>
         </div>
-        <div class="arabic">
-          <h2>راجع طلبات مواد التوقف وحدّد نواقص التوريد قبل موعد الاحتياج.</h2>
-          <p>يجمع MRO Optix قائمة المواد وسجل الاستهلاك والمخزون وأوامر الشراء في مسار مراجعة واحد داخل Excel. الأداة تدعم قرار المهندس ولا تعتمد الكميات أو تعدّل نظام ERP تلقائيًا.</p>
-        </div>
       </section>
     </main>
 
     <footer>
-      <span>MRO Optix · Corrected pilot release in preparation</span>
+      <span>MRO Optix Individual · Corrected release in verification</span>
       <span>No employer endorsement, guaranteed savings, or customer data upload claimed.</span>
     </footer>
   </div>
