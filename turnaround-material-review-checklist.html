@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turnaround Material-Review Checklist | MRO Optix</title>
+  <meta name="description" content="A free, no-sign-up checklist for preparing a bounded turnaround material review: sources, keys, history, supply timing, engineering decisions, and handoff.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://farajaay.github.io/mro-optix/turnaround-material-review-checklist.html">
+  <style>
+    :root { color-scheme:dark; --ink:#eef4fb; --muted:#a9bbcd; --line:#294057; --panel:#101d2a; --navy:#07121d; --blue:#49adff; --amber:#f6b84a; --green:#55d69e; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:linear-gradient(rgba(58,167,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(58,167,255,.035) 1px,transparent 1px),var(--navy); background-size:36px 36px; line-height:1.55; }
+    a { color:inherit; }
+    a:focus-visible,button:focus-visible { outline:3px solid var(--amber); outline-offset:4px; }
+    .skip { position:absolute; left:-999px; top:.5rem; background:var(--amber); color:#101820; padding:.7rem 1rem; }
+    .skip:focus { left:.5rem; }
+    .shell { width:min(960px,calc(100% - 2rem)); margin:0 auto; }
+    nav { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1.2rem 0; }
+    .brand { display:flex; align-items:center; gap:.65rem; text-decoration:none; font-weight:800; }
+    .mark { width:32px; height:32px; border:1px solid var(--blue); display:grid; place-items:center; color:var(--blue); }
+    .back { color:var(--muted); font-size:.9rem; }
+    header { border-top:1px solid var(--line); padding:4.5rem 0 3rem; }
+    .eyebrow { color:var(--blue); text-transform:uppercase; letter-spacing:.15em; font-size:.76rem; font-weight:800; }
+    h1 { font-size:clamp(2.4rem,6vw,4.7rem); line-height:1; letter-spacing:-.05em; max-width:13ch; margin:1rem 0 1.3rem; }
+    .lead { color:#cbd7e3; font-size:1.15rem; max-width:68ch; }
+    .meta { display:flex; flex-wrap:wrap; gap:.65rem; margin-top:1.5rem; }
+    .chip { border:1px solid var(--line); background:var(--panel); color:var(--muted); padding:.45rem .65rem; font-size:.82rem; }
+    .notice { margin:0 0 2rem; padding:1rem 1.1rem; border-left:3px solid var(--amber); background:rgba(246,184,74,.07); color:#e2d3b6; }
+    .toolbar { display:flex; justify-content:space-between; gap:1rem; align-items:center; border-block:1px solid var(--line); padding:1rem 0; margin-bottom:2rem; }
+    .toolbar p { margin:0; color:var(--muted); font-size:.9rem; }
+    button { border:1px solid var(--blue); background:var(--blue); color:#06111b; padding:.65rem .9rem; font:inherit; font-weight:800; cursor:pointer; border-radius:3px; }
+    .checklist { display:grid; gap:1rem; }
+    section { border:1px solid var(--line); background:rgba(16,29,42,.92); padding:1.4rem; break-inside:avoid; }
+    .section-head { display:grid; grid-template-columns:auto 1fr; gap:.9rem; align-items:start; }
+    .num { width:2rem; height:2rem; display:grid; place-items:center; border:1px solid var(--blue); color:var(--blue); font:800 .8rem/1 monospace; }
+    h2 { margin:.15rem 0 .35rem; font-size:1.18rem; }
+    .section-head p { margin:0; color:var(--muted); font-size:.9rem; }
+    ul { margin:1.15rem 0 0; padding:0; list-style:none; }
+    li { position:relative; padding:.6rem 0 .6rem 2rem; border-top:1px solid rgba(41,64,87,.7); }
+    li::before { content:""; position:absolute; left:0; top:.75rem; width:1rem; height:1rem; border:1px solid #6c8398; background:#0a1621; }
+    .fields { display:grid; grid-template-columns:repeat(2,1fr); gap:.75rem; margin-top:1rem; }
+    .field { min-height:4.5rem; border:1px dashed #50677c; padding:.6rem; color:var(--muted); font-size:.82rem; }
+    .decision { border-left:3px solid var(--green); }
+    .handoff { margin:2rem 0; border:1px solid #3a5a74; background:linear-gradient(135deg,#14283a,#101d2a); padding:1.4rem; }
+    .handoff h2 { margin-top:0; }
+    .handoff p { color:var(--muted); }
+    .signoff { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.3rem; }
+    .line { border-bottom:1px solid #70869a; min-height:3.25rem; display:flex; align-items:flex-end; padding-bottom:.35rem; color:var(--muted); font-size:.78rem; }
+    footer { border-top:1px solid var(--line); padding:2rem 0 3.5rem; color:var(--muted); font-size:.84rem; }
+    @media (max-width:650px) { .fields,.signoff { grid-template-columns:1fr; } .toolbar { align-items:flex-start; flex-direction:column; } button { width:100%; } h1 { font-size:clamp(2.3rem,13vw,3.4rem); } }
+    @media print {
+      :root { color-scheme:light; --ink:#111; --muted:#444; --line:#aaa; --panel:#fff; --navy:#fff; --blue:#075c9a; --amber:#7a4c00; --green:#176a45; }
+      body { background:#fff; color:#111; font-size:10.5pt; }
+      .shell { width:100%; }
+      nav,.toolbar,.skip { display:none; }
+      header { padding:0 0 1rem; }
+      h1 { font-size:28pt; }
+      section { background:#fff; padding:.9rem; }
+      .notice,.handoff { background:#fff; }
+      .checklist { gap:.55rem; }
+      li { padding-top:.35rem; padding-bottom:.35rem; }
+      li::before { top:.48rem; }
+      footer { padding:1rem 0 0; }
+      @page { margin:12mm; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to checklist</a>
+  <div class="shell">
+    <nav aria-label="Resource navigation"><a class="brand" href="index.html"><span class="mark" aria-hidden="true">M</span>MRO Optix</a><a class="back" href="index.html">← Product overview</a></nav>
+    <main id="main">
+      <header>
+        <div class="eyebrow">Free practical resource · no sign-up</div>
+        <h1>Turnaround material-review preparation checklist.</h1>
+        <p class="lead">Use this before the review meeting to expose missing inputs, separate evidence from approval, and make need-date supply questions explicit.</p>
+        <div class="meta"><span class="chip">For bounded material reviews</span><span class="chip">Use with fictional or authorised data only</span><span class="chip">Printable</span></div>
+      </header>
+
+      <p class="notice"><strong>Operating note:</strong> This checklist does not approve material requirements or replace site procedures, engineering judgement, procurement controls, or source-data verification. Do not place confidential plant data in an unapproved tool or channel.</p>
+
+      <div class="toolbar"><p>Mark on paper or save an approved internal copy under your organisation’s document controls.</p><button type="button" onclick="window.print()">Print checklist</button></div>
+
+      <div class="checklist">
+        <section>
+          <div class="section-head"><span class="num">01</span><div><h2>Define the review boundary</h2><p>Agree what is being reviewed before assembling rows.</p></div></div>
+          <ul><li>Turnaround/event, site, area, unit, and need-date basis are named.</li><li>The responsible planner, materials reviewer, engineering approver, and procurement contact are identified.</li><li>Included and excluded jobs/material classes are explicit.</li><li>The source-system cut-off date/time is recorded.</li><li>Request and reference volumes fit the chosen review method; nothing is silently truncated.</li></ul>
+          <div class="fields"><div class="field">Review name / event</div><div class="field">Data cut-off / version</div></div>
+        </section>
+
+        <section>
+          <div class="section-head"><span class="num">02</span><div><h2>Confirm source ownership and versions</h2><p>Know who owns each extract and whether it represents the intended snapshot.</p></div></div>
+          <ul><li>Request list owner and revision are recorded.</li><li>Material master and plant-specific attributes come from an authorised source.</li><li>Consumption history includes a documented event-selection rule.</li><li>BOM extract scope and effective-date basis are understood.</li><li>Stock and open-PO extracts share a suitable cut-off.</li><li>Operational identifiers are handled only in approved locations.</li></ul>
+        </section>
+
+        <section>
+          <div class="section-head"><span class="num">03</span><div><h2>Validate keys, units, and fields</h2><p>Resolve exceptions before discussing a proposed quantity.</p></div></div>
+          <ul><li>Material/plant keys match across request, master, history, BOM, stock, and PO data.</li><li>Duplicate request lines and duplicate reference keys are understood and resolved.</li><li>Units of measure align or an authorised conversion is documented.</li><li>Blank, unknown, inactive, obsolete, and superseded material statuses are reviewed.</li><li>Negative, zero, non-numeric, or unusually large quantities are explained.</li><li>Need dates and PO due dates are valid and use the same date basis.</li></ul>
+          <div class="fields"><div class="field">Unresolved key / unit exceptions</div><div class="field">Owner and due date for resolution</div></div>
+        </section>
+
+        <section>
+          <div class="section-head"><span class="num">04</span><div><h2>Test the evidence for comparability</h2><p>Historical use is context only when the comparison is defensible.</p></div></div>
+          <ul><li>Comparable events reflect a similar asset, work scope, and operating context.</li><li>Abnormal events, one-off failures, and known data gaps are labelled.</li><li>Installed BOM presence is checked but not treated as automatic demand.</li><li>Mandatory scope and critical-spare rationale are recorded separately from historical use.</li><li>Event slots or history windows are sufficient for this review; any limit is visible.</li><li>A reviewer can explain why each evidence source is relevant to the decision.</li></ul>
+        </section>
+
+        <section>
+          <div class="section-head"><span class="num">05</span><div><h2>Separate need-date supply positions</h2><p>Coverage and timing are different questions.</p></div></div>
+          <ul><li>Usable stock is distinguished from blocked, reserved, quality-held, or otherwise unavailable stock.</li><li>Stock allocation rules across competing jobs are understood.</li><li>On-time open-PO quantity is separated from late open-PO quantity.</li><li>Each PO date represents the intended receipt/date basis.</li><li>Split deliveries or multiple receipt lines are handled by a method that supports them.</li><li>Additional purchase need is reviewed after usable stock and eligible on-time supply.</li><li>Late supply is assigned for follow-up; it is not confused with uncovered demand.</li></ul>
+          <div class="fields"><div class="field">Late-supply actions / owner</div><div class="field">Additional-purchase actions / owner</div></div>
+        </section>
+
+        <section class="decision">
+          <div class="section-head"><span class="num">06</span><div><h2>Record the human decision</h2><p>A proposed number must not silently become an approval.</p></div></div>
+          <ul><li>Requested quantity and its source revision remain visible.</li><li>Any proposed change is labelled as a proposal, not a saving or approval.</li><li>The decision basis cites relevant evidence and known limitations.</li><li>Approved quantity is recorded separately and fixed to the decision record.</li><li>Decision owner, date, and supporting reference are complete.</li><li>A changed request, history, event set, rule, or material record triggers reconfirmation.</li><li>The responsible organisation verifies outputs before procurement or maintenance action.</li></ul>
+        </section>
+
+        <section>
+          <div class="section-head"><span class="num">07</span><div><h2>Quality-check the review pack</h2><p>Make the result reproducible enough for the next reviewer.</p></div></div>
+          <ul><li>Filters cover the complete prepared range and no relevant rows are hidden unintentionally.</li><li>Formulas, validation rules, and intended input areas behave as expected.</li><li>Exceptions are resolved or explicitly carried forward with an owner.</li><li>Totals reconcile to the row-level review at the chosen cut-off.</li><li>The file saves, reopens, recalculates, filters, and prints correctly in the approved environment.</li><li>File name, version, checksum or other local release identifier, and retention location are recorded.</li><li>Handoff recipients understand what the workbook does not do.</li></ul>
+        </section>
+      </div>
+
+      <section class="handoff">
+        <h2>Review handoff</h2>
+        <p>Before action, state the remaining exceptions and confirm that proposed changes are not realised savings or procurement instructions.</p>
+        <div class="signoff"><div class="line">Prepared by / date</div><div class="line">Engineering review / date</div><div class="line">Procurement handoff / date</div></div>
+      </section>
+    </main>
+
+    <footer><strong>MRO Optix Individual v2.1</strong> is currently a candidate release; sales are not open. This checklist is an educational resource and does not depend on purchasing the product.</footer>
+  </div>
+</body>
+</html>
