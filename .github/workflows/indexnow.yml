@@ -1,0 +1,23 @@
+name: Notify IndexNow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*.html'
+      - 'sitemap.xml'
+      - '5a9e2f104dc94d1186f8b37a6c21e540.txt'
+
+permissions: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify participating search engines
+        shell: bash
+        run: |
+          curl --fail --silent --show-error \
+            --request POST 'https://api.indexnow.org/indexnow' \
+            --header 'Content-Type: application/json; charset=utf-8' \
+            --data '{"host":"farajaay.github.io","key":"5a9e2f104dc94d1186f8b37a6c21e540","keyLocation":"https://farajaay.github.io/mro-optix/5a9e2f104dc94d1186f8b37a6c21e540.txt","urlList":["https://farajaay.github.io/mro-optix/","https://farajaay.github.io/mro-optix/turnaround-material-review-checklist.html","https://farajaay.github.io/mro-optix/material-request-vs-engineering-approval.html","https://farajaay.github.io/mro-optix/late-po-vs-purchase-need.html"]}'
