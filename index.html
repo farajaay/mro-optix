@@ -3,198 +3,184 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MRO Optix | Turnaround material review</title>
-  <meta name="description" content="Review turnaround material requests, engineering decisions, and supply readiness in one Excel workflow.">
+  <title>MRO Optix Individual v2.1 | Turnaround material review in Excel</title>
+  <meta name="description" content="A candidate Excel workflow for structured turnaround material review. See the workflow, exact limits, evidence, and pending release gates. Sales are not open.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://farajaay.github.io/mro-optix/">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%2307121d'/%3E%3Cpath d='M14 47V17h9l9 15 9-15h9v30h-8V29L32 45 22 29v18z' fill='%233aa7ff'/%3E%3C/svg%3E">
   <style>
-    :root {
-      color-scheme: dark;
-      --ink: #eef4fb;
-      --muted: #9fb0c3;
-      --line: #263a50;
-      --panel: #101d2a;
-      --panel-2: #142638;
-      --navy: #07121d;
-      --blue: #3aa7ff;
-      --amber: #f6b84a;
-      --green: #55d69e;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background:
-        linear-gradient(rgba(58, 167, 255, .035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(58, 167, 255, .035) 1px, transparent 1px),
-        radial-gradient(circle at 80% -10%, #183957 0, transparent 34rem),
-        var(--navy);
-      background-size: 36px 36px, 36px 36px, auto, auto;
-      line-height: 1.55;
-    }
-    a { color: inherit; }
-    .shell { width: min(1160px, calc(100% - 2rem)); margin: 0 auto; }
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 0; }
-    .brand { display: flex; align-items: center; gap: .7rem; font-weight: 800; letter-spacing: .02em; }
-    .mark { width: 34px; height: 34px; border: 1px solid var(--blue); display: grid; place-items: center; color: var(--blue); }
-    .nav-note { color: var(--muted); font-size: .88rem; }
-    .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 3.5rem; align-items: center; min-height: 650px; padding: 4.5rem 0 5rem; }
-    .eyebrow { color: var(--blue); text-transform: uppercase; letter-spacing: .16em; font-size: .78rem; font-weight: 800; }
-    h1 { font-size: clamp(2.65rem, 6vw, 5.5rem); line-height: .98; letter-spacing: -.055em; margin: 1rem 0 1.4rem; max-width: 12ch; }
-    .lead { color: #c4d1df; font-size: clamp(1.05rem, 2vw, 1.27rem); max-width: 62ch; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 2rem; align-items: center; }
-    .cta { border: 0; background: var(--amber); color: #101820; font: inherit; font-weight: 800; padding: .95rem 1.2rem; border-radius: 3px; cursor: not-allowed; opacity: .88; }
-    .cta-note { color: var(--muted); font-size: .85rem; max-width: 32ch; }
-    .workbook { position: relative; border: 1px solid #35506a; background: linear-gradient(145deg, #16283a, #0c1722); padding: 1rem; box-shadow: 0 35px 70px rgba(0,0,0,.35); }
-    .window { border: 1px solid var(--line); background: #0b1621; }
-    .window-bar { height: 34px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 6px; padding: 0 .75rem; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: #456076; }
-    .sheet { padding: 1rem; }
-    .sheet-head { display: grid; grid-template-columns: 1.2fr .9fr .9fr; gap: 6px; margin-bottom: 6px; }
-    .cell, .row span { min-height: 34px; border: 1px solid #263c52; padding: .55rem .6rem; font-size: .72rem; color: #b9c7d5; }
-    .cell { background: #173554; color: white; font-weight: 700; }
-    .row { display: grid; grid-template-columns: 1.2fr .9fr .9fr; gap: 6px; margin-top: 6px; }
-    .row .warn { color: #ffcc72; background: rgba(246,184,74,.09); }
-    .row .good { color: #69e7af; background: rgba(85,214,158,.08); }
-    .row .review { color: #8dc9ff; }
-    .signal { position: absolute; right: -20px; bottom: 34px; padding: .7rem .85rem; background: var(--amber); color: #101820; font-weight: 800; font-size: .78rem; }
-    section { border-top: 1px solid var(--line); padding: 5.5rem 0; }
-    .section-head { display: grid; grid-template-columns: .9fr 1.1fr; gap: 2rem; align-items: end; margin-bottom: 2.5rem; }
-    h2 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.08; letter-spacing: -.04em; margin: 0; }
-    .section-head p { color: var(--muted); margin: 0; max-width: 58ch; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-    .card { border: 1px solid var(--line); background: rgba(16,29,42,.86); padding: 1.35rem; min-height: 180px; }
-    .num { color: var(--blue); font: 800 .8rem/1 monospace; }
-    .card h3 { margin: 1.4rem 0 .6rem; font-size: 1.08rem; }
-    .card p { color: var(--muted); margin: 0; font-size: .95rem; }
-    .fit { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .fit-box { border: 1px solid var(--line); padding: 1.5rem; background: var(--panel); }
-    .fit-box h3 { margin-top: 0; }
-    .fit-box ul { padding-left: 1.15rem; color: var(--muted); }
-    .fit-box li { margin: .65rem 0; }
-    .limit { border-left: 3px solid var(--amber); }
-    .offer { display: grid; grid-template-columns: .72fr 1.28fr; gap: 1rem; align-items: stretch; }
-    .price { border: 1px solid #47708f; background: linear-gradient(145deg, #17324a, #0e1d2a); padding: 2rem; }
-    .price strong { display: block; font-size: clamp(2.6rem, 6vw, 4.8rem); line-height: 1; letter-spacing: -.05em; margin: .8rem 0; }
-    .price p, .license p { color: var(--muted); }
-    .license { border: 1px solid var(--line); background: var(--panel); padding: 2rem; }
-    .license ul { color: var(--muted); padding-left: 1.2rem; }
-    .license li { margin: .6rem 0; }
-    footer { padding: 2.5rem 0 4rem; color: var(--muted); font-size: .87rem; display: flex; justify-content: space-between; gap: 1rem; }
-    @media (max-width: 820px) {
-      .hero, .section-head, .fit, .offer { grid-template-columns: 1fr; }
-      .hero { padding-top: 2.5rem; min-height: auto; }
-      .grid { grid-template-columns: 1fr; }
-      .nav-note { display: none; }
-      .signal { right: -7px; }
-      footer { flex-direction: column; }
-    }
+    :root { color-scheme: dark; --ink:#eef4fb; --muted:#a9bbcd; --line:#294057; --panel:#101d2a; --panel-2:#15283a; --navy:#07121d; --blue:#49adff; --amber:#f6b84a; --green:#55d69e; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:linear-gradient(rgba(58,167,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(58,167,255,.035) 1px,transparent 1px),radial-gradient(circle at 82% -5%,#183957 0,transparent 34rem),var(--navy); background-size:36px 36px,36px 36px,auto,auto; line-height:1.58; }
+    a { color:inherit; }
+    a:focus-visible,summary:focus-visible { outline:3px solid var(--amber); outline-offset:4px; }
+    .skip { position:absolute; left:-999px; top:.5rem; background:var(--amber); color:#101820; padding:.7rem 1rem; z-index:10; }
+    .skip:focus { left:.5rem; }
+    .shell { width:min(1160px,calc(100% - 2rem)); margin:0 auto; }
+    .status-strip { border-bottom:1px solid #60491e; background:#201a10; color:#ffe1a7; }
+    .status-strip .shell { display:flex; gap:.75rem; align-items:flex-start; padding:.75rem 0; font-size:.9rem; }
+    .status-dot { flex:0 0 auto; width:9px; height:9px; margin-top:.4rem; border-radius:50%; background:var(--amber); box-shadow:0 0 0 4px rgba(246,184,74,.12); }
+    nav { display:flex; justify-content:space-between; align-items:center; gap:1.5rem; padding:1.2rem 0; }
+    .brand { display:flex; align-items:center; gap:.7rem; font-weight:800; letter-spacing:.02em; text-decoration:none; white-space:nowrap; }
+    .mark { width:34px; height:34px; border:1px solid var(--blue); display:grid; place-items:center; color:var(--blue); }
+    .nav-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.4rem 1.1rem; font-size:.88rem; }
+    .nav-links a { color:var(--muted); text-decoration:none; }
+    .nav-links a:hover { color:var(--ink); }
+    .hero { display:grid; grid-template-columns:1.12fr .88fr; gap:3.5rem; align-items:center; padding:5.5rem 0 6rem; }
+    .eyebrow { color:var(--blue); text-transform:uppercase; letter-spacing:.16em; font-size:.76rem; font-weight:800; }
+    h1 { font-size:clamp(2.75rem,6vw,5.5rem); line-height:.98; letter-spacing:-.055em; margin:1rem 0 1.4rem; max-width:12ch; }
+    h2 { font-size:clamp(2rem,4vw,3.25rem); line-height:1.08; letter-spacing:-.04em; margin:0; }
+    h3 { line-height:1.25; }
+    .lead { color:#cbd7e3; font-size:clamp(1.05rem,2vw,1.25rem); max-width:61ch; }
+    .action-row { display:flex; flex-wrap:wrap; gap:.8rem; margin-top:2rem; }
+    .action { display:inline-flex; align-items:center; justify-content:center; min-height:46px; padding:.75rem 1rem; border:1px solid var(--blue); color:var(--ink); text-decoration:none; font-weight:800; border-radius:3px; }
+    .action.primary { background:var(--blue); color:#06111b; }
+    .action.secondary { border-color:#527089; }
+    .micro { color:var(--muted); font-size:.84rem; margin-top:1rem; max-width:58ch; }
+    .workbook { position:relative; border:1px solid #35506a; background:linear-gradient(145deg,#16283a,#0c1722); padding:1rem; box-shadow:0 35px 70px rgba(0,0,0,.35); }
+    .window { border:1px solid var(--line); background:#0b1621; }
+    .window-bar { height:34px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:6px; padding:0 .75rem; }
+    .dot { width:8px; height:8px; border-radius:50%; background:#456076; }
+    .sheet { padding:1rem; overflow:hidden; }
+    .sheet-head,.row { display:grid; grid-template-columns:1.2fr .9fr .9fr; gap:6px; }
+    .row { margin-top:6px; }
+    .cell,.row span { min-height:34px; border:1px solid #263c52; padding:.55rem .6rem; font-size:.72rem; color:#c5d1dc; }
+    .cell { background:#173554; color:white; font-weight:700; }
+    .row .warn { color:#ffcf7a; background:rgba(246,184,74,.09); }
+    .row .good { color:#73e9b5; background:rgba(85,214,158,.08); }
+    .row .review { color:#98d0ff; }
+    .demo-label { border-top:1px solid var(--line); padding:.65rem .8rem; color:var(--muted); font-size:.76rem; }
+    section { border-top:1px solid var(--line); padding:5.5rem 0; scroll-margin-top:1rem; }
+    .section-head { display:grid; grid-template-columns:.92fr 1.08fr; gap:2rem; align-items:end; margin-bottom:2.5rem; }
+    .section-head p { color:var(--muted); margin:0; max-width:62ch; }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .card { border:1px solid var(--line); background:rgba(16,29,42,.9); padding:1.4rem; min-height:195px; }
+    .num { color:var(--blue); font:800 .8rem/1 monospace; }
+    .card h3 { margin:1.35rem 0 .6rem; font-size:1.08rem; }
+    .card p { color:var(--muted); margin:0; font-size:.94rem; }
+    .fit { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .fit-box,.evidence-box { border:1px solid var(--line); padding:1.5rem; background:var(--panel); }
+    .fit-box h3,.evidence-box h3 { margin-top:0; }
+    .fit-box ul,.evidence-box ul { padding-left:1.15rem; color:var(--muted); }
+    .fit-box li,.evidence-box li { margin:.65rem 0; }
+    .limit { border-left:3px solid var(--amber); }
+    .offer { display:grid; grid-template-columns:.72fr 1.28fr; gap:1rem; align-items:stretch; }
+    .price { border:1px solid #47708f; background:linear-gradient(145deg,#17324a,#0e1d2a); padding:2rem; }
+    .price strong { display:block; font-size:clamp(2.6rem,6vw,4.8rem); line-height:1; letter-spacing:-.05em; margin:.8rem 0; }
+    .price p,.license p { color:var(--muted); }
+    .closed { display:inline-block; margin-top:1rem; padding:.55rem .7rem; border:1px solid #6b5223; background:#211b10; color:#ffe1a7; font-size:.82rem; font-weight:800; }
+    .license { border:1px solid var(--line); background:var(--panel); padding:2rem; }
+    .license ul { color:var(--muted); padding-left:1.2rem; }
+    .license li { margin:.6rem 0; }
+    .proof-grid { display:grid; grid-template-columns:.95fr 1.05fr; gap:1rem; }
+    .metric { display:grid; grid-template-columns:auto 1fr; gap:.8rem; align-items:start; padding:1rem 0; border-top:1px solid var(--line); }
+    .metric:first-child { border-top:0; padding-top:0; }
+    .metric strong { color:var(--green); font-size:1.15rem; }
+    .metric span { color:var(--muted); font-size:.92rem; }
+    .caveat { margin-top:1rem; padding:1rem; border-left:3px solid var(--amber); background:rgba(246,184,74,.06); color:#d8c9aa; font-size:.9rem; }
+    .gates { margin:0; padding:0; list-style:none; }
+    .gate { display:grid; grid-template-columns:7.5rem 1fr; gap:1rem; padding:1.15rem 0; border-top:1px solid var(--line); }
+    .gate:first-child { border-top:0; }
+    .tag { align-self:start; display:inline-flex; justify-content:center; padding:.3rem .5rem; border:1px solid; font-size:.74rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+    .tag.pass { color:var(--green); border-color:#2c7656; background:rgba(85,214,158,.06); }
+    .tag.pending { color:#ffe1a7; border-color:#6b5223; background:rgba(246,184,74,.06); }
+    .gate p { margin:0; color:var(--muted); }
+    .resource { display:grid; grid-template-columns:1fr auto; gap:1.5rem; align-items:center; border:1px solid #41617d; background:linear-gradient(135deg,var(--panel-2),var(--panel)); padding:1.6rem; }
+    .resource h3 { margin:0 0 .45rem; }
+    .resource p { margin:0; color:var(--muted); }
+    .faq { display:grid; gap:.7rem; }
+    details { border:1px solid var(--line); background:var(--panel); padding:0 1.1rem; }
+    summary { cursor:pointer; font-weight:750; padding:1rem 0; }
+    details p { color:var(--muted); margin:0 0 1rem; }
+    footer { padding:2.5rem 0 4rem; color:var(--muted); font-size:.87rem; display:flex; justify-content:space-between; gap:1rem; }
+    @media (max-width:820px) { .hero,.section-head,.fit,.offer,.proof-grid { grid-template-columns:1fr; } .hero { padding:3rem 0 4rem; } .grid { grid-template-columns:1fr; } .nav-links { display:none; } .resource { grid-template-columns:1fr; } .resource .action { width:100%; } footer { flex-direction:column; } }
+    @media (max-width:500px) { .shell { width:min(100% - 1.25rem,1160px); } h1 { font-size:clamp(2.4rem,14vw,3.4rem); } section { padding:4rem 0; } .sheet { padding:.55rem; } .cell,.row span { padding:.4rem; font-size:.64rem; overflow-wrap:anywhere; } .gate { grid-template-columns:1fr; gap:.55rem; } .tag { justify-self:start; } .action-row { flex-direction:column; align-items:stretch; } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
   </style>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="status-strip" role="status"><div class="shell"><span class="status-dot" aria-hidden="true"></span><span><strong>Candidate release — sales are not open.</strong> Native Microsoft 365 Excel for Windows acceptance, worksheet-protection validation, and seller verification are pending. Checkout is disabled.</span></div></div>
   <div class="shell">
-    <nav aria-label="Primary">
-      <div class="brand"><span class="mark">M</span>MRO Optix</div>
-      <div class="nav-note">English individual edition · checkout pending verification</div>
+    <nav aria-label="Primary navigation">
+      <a class="brand" href="#main"><span class="mark" aria-hidden="true">M</span>MRO Optix</a>
+      <div class="nav-links"><a href="#workflow">Workflow</a><a href="#fit">Fit &amp; limits</a><a href="#evidence">Evidence</a><a href="#release-gates">Release gates</a><a href="#faq">FAQ</a></div>
     </nav>
-
-    <main>
+    <main id="main">
       <div class="hero">
         <div>
-          <div class="eyebrow">Individual licence for English-speaking professionals</div>
-          <h1>See the material decision before the shortage.</h1>
-          <p class="lead">Bring requests, comparable turnaround history, stock, and open purchase orders into one review. MRO Optix separates the model proposal, engineering decision, and supply position by the need date.</p>
-          <div class="cta-row">
-            <button class="cta" type="button" disabled>Buy for $299 — opening soon</button>
-            <span class="cta-note">One-time purchase. Checkout opens after release verification and seller approval.</span>
-          </div>
+          <div class="eyebrow">MRO Optix Individual v2.1</div>
+          <h1>Turnaround material review, structured in Excel.</h1>
+          <p class="lead">Review requests against supplied master, history, BOM, stock, and purchase-order timing data—then record the human engineering decision in one defined workflow.</p>
+          <div class="action-row"><a class="action primary" href="#workflow">See the review workflow</a><a class="action secondary" href="turnaround-material-review-checklist.html">Use the free checklist</a></div>
+          <p class="micro">Supports review from supplied data. No live ERP integration, automatic engineering approval, or guaranteed saving or material-availability outcome.</p>
         </div>
-
-        <div class="workbook" aria-label="Illustrative workbook review queue">
-          <div class="window">
-            <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <div class="sheet">
-              <div class="sheet-head"><div class="cell">Material review</div><div class="cell">Engineering</div><div class="cell">Readiness</div></div>
-              <div class="row"><span>Bearing kit</span><span class="review">Review quantity</span><span class="good">Stock allocated</span></div>
-              <div class="row"><span>Seal set</span><span class="good">Mandatory scope</span><span class="warn">Late PO</span></div>
-              <div class="row"><span>Drive coupling</span><span class="review">Decision required</span><span class="warn">Purchase need</span></div>
-            </div>
-          </div>
-          <div class="signal">Need-date supply view</div>
+        <div class="workbook" aria-label="Fictional illustration of an Excel material review queue">
+          <div class="window"><div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="sheet">
+            <div class="sheet-head"><div class="cell">Material review</div><div class="cell">Engineering</div><div class="cell">Readiness</div></div>
+            <div class="row"><span>Bearing kit</span><span class="review">Review quantity</span><span class="good">Stock allocated</span></div>
+            <div class="row"><span>Seal set</span><span class="good">Confirmed scope</span><span class="warn">Late PO</span></div>
+            <div class="row"><span>Drive coupling</span><span class="review">Decision required</span><span class="warn">Purchase need</span></div>
+          </div><div class="demo-label">Fictional demonstration data — not customer results.</div></div>
         </div>
       </div>
-
-      <section>
-        <div class="section-head">
-          <h2>One review path from request to action.</h2>
-          <p>Designed for planners and engineering reviewers who already work from Excel extracts and need a disciplined view of quantity evidence and supply readiness.</p>
-        </div>
+      <section id="workflow">
+        <div class="section-head"><h2>One review path from request to decision.</h2><p>Designed for practitioners who already work from spreadsheet extracts and need a disciplined view of data exceptions, quantity evidence, human approval, and need-date supply.</p></div>
         <div class="grid">
-          <article class="card"><div class="num">01</div><h3>Resolve input exceptions</h3><p>Expose missing identifiers, unit mismatches, unknown material/plant keys, and incomplete records before quantity discussion.</p></article>
-          <article class="card"><div class="num">02</div><h3>Review demand evidence</h3><p>Compare request quantities with installed BOM and comparable-event history while protecting mandatory and critical-spare decisions.</p></article>
-          <article class="card"><div class="num">03</div><h3>See supply by need date</h3><p>Allocate usable stock and eligible open POs across jobs, then distinguish purchase need from late supply that requires expediting.</p></article>
+          <article class="card"><div class="num">01</div><h3>Bring supplied data</h3><p>Use request, master, material/plant history, BOM, stock, and open-PO files. Expose missing identifiers, unit mismatches, and incomplete records before quantity discussion.</p></article>
+          <article class="card"><div class="num">02</div><h3>Review evidence</h3><p>Compare the request with supplied BOM and comparable-event history. Keep a model proposal separate from the quantity approved by the responsible engineering reviewer.</p></article>
+          <article class="card"><div class="num">03</div><h3>See need-date supply</h3><p>Distinguish usable stock, on-time PO quantity, late PO quantity, and additional purchase need. Verify the outputs before procurement or maintenance action.</p></article>
         </div>
       </section>
-
-      <section>
-        <div class="section-head">
-          <h2>A focused licence for one professional.</h2>
-          <p>Start with one user and one industrial site. Keep the purchased version without a recurring subscription.</p>
-        </div>
-        <div class="offer">
-          <div class="price">
-            <div class="eyebrow">Launch price</div>
-            <strong>$299</strong>
-            <p>One-time payment. Applicable taxes are calculated at checkout.</p>
-          </div>
-          <div class="license">
-            <h3>MRO Optix Individual</h3>
-            <ul>
-              <li>One named user within one organisation and one named site</li>
-              <li>Blank and fictional demonstration workbooks</li>
-              <li>CSV/XLSX importer, sample files, quick-start guide, and data dictionary</li>
-              <li>Perpetual use of the purchased version</li>
-              <li>Minor corrections and updates for 12 months</li>
-              <li>Product-use support for 90 days</li>
-            </ul>
-            <p>Consulting, client-to-client reuse, ERP integration, and engineering approval services are not included.</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div class="section-head">
-          <h2>Built for a focused first pilot.</h2>
-          <p>The initial release is intentionally narrow. It supports structured material review; it does not claim live ERP integration or autonomous engineering approval.</p>
-        </div>
+      <section id="fit">
+        <div class="section-head"><h2>Know the fit before the offer.</h2><p>This Individual edition is intentionally bounded. A large operation may still have a suitable focused review; the limits below are hard and must not be worked around by truncating data.</p></div>
         <div class="fit">
-          <div class="fit-box">
-            <h3>Good pilot fit</h3>
-            <ul>
-              <li>Microsoft 365 Excel for Windows</li>
-              <li>One named industrial site and a small internal review team</li>
-              <li>Accessible request, master, history, BOM, stock, and PO extracts</li>
-              <li>Engineering reviewer available to confirm material decisions</li>
-            </ul>
-          </div>
-          <div class="fit-box limit">
-            <h3>Release limits</h3>
-            <ul>
-              <li>Maximum 250 request lines in the Individual release</li>
-              <li>Up to 500 master, history, and BOM records</li>
-              <li>Up to eight comparable event slots</li>
-              <li>One open PO quantity and due date per material/plant</li>
-              <li>No SAP, Maximo, or Oracle live connector</li>
-            </ul>
-          </div>
+          <div class="fit-box"><h3>Potential fit</h3><ul><li>One hands-on turnaround or maintenance material reviewer</li><li>English working documents</li><li>Microsoft 365 Excel for Windows, after native acceptance</li><li>One organisation and one named industrial site</li><li>Supplied, verified source extracts and a responsible engineering reviewer</li></ul></div>
+          <div class="fit-box limit"><h3>Hard limits</h3><ul><li>250 request lines</li><li>500 master-data records</li><li>500 material/plant consumption-history records</li><li>500 BOM records</li><li>Eight comparable turnaround-event slots per material/plant</li><li>One open-PO quantity and due date per material/plant</li><li>Imported source text limited to 250 characters per field</li></ul></div>
+        </div>
+        <div class="fit-box" style="margin-top:1rem"><h3>Not included</h3><p style="color:var(--muted);margin-bottom:0">Live SAP, Maximo, Oracle, or other ERP integration; multiple dated receipt lines per material/plant; automatic engineering approval; an immutable multi-user audit trail; turnaround scheduling; stock transfers; expiry calculations; live kit status; multi-user, multi-site, or cross-client consulting rights.</p></div>
+      </section>
+      <section id="offer">
+        <div class="section-head"><h2>A planned Individual offer—not an open checkout.</h2><p>The offer is shown for fit and price feedback. It is not currently payable and does not imply an unconditional launch date.</p></div>
+        <div class="offer">
+          <div class="price"><div class="eyebrow">Planned launch price</div><strong>USD 299</strong><p>One time. Applicable taxes would be shown by the verified checkout.</p><span class="closed">Checkout disabled</span></div>
+          <div class="license"><h3>MRO Optix Individual v2.1</h3><ul><li>One named user within one organisation at one named industrial site</li><li>Blank workbook and independently fictional demonstration workbook</li><li>Optional CSV/XLSX importer, fictional samples, and quick-start documentation</li><li>Indefinite use of the purchased product version under the licence</li><li>Available minor corrections within the purchased major version for 12 months</li><li>Product-use support for 90 days; seller contact must be verified before sale</li></ul><p>Data preparation, consulting, ERP integration, engineering approval services, multi-user rights, and multi-site rights are not included.</p></div>
+        </div>
+      </section>
+      <section id="evidence">
+        <div class="section-head"><h2>What has been checked—and what has not.</h2><p>The dated candidate verification record covers the final blank/demo workbooks and optional importer. Automated checks are useful evidence, but they do not constitute native Excel acceptance or a business-outcome claim.</p></div>
+        <div class="proof-grid">
+          <div class="evidence-box"><h3>Reported technical evidence · 14 Sep 2026</h3><div class="metric"><strong>29 / 29</strong><span>Artifact-engine dynamic behaviour checks passed.</span></div><div class="metric"><strong>0 matches</strong><span>Formula-error matches in the final blank and fictional-demo scans.</span></div><div class="metric"><strong>22 passes</strong><span>Importer validation suite, plus one recorded harness mismatch: source text <code>LIMIT-0245</code> intentionally retained its leading zero. No product defect was identified by that result.</span></div></div>
+          <div class="evidence-box"><h3>Evidence boundaries</h3><ul><li>LibreOffice recalculation was part of verification, but it is not the target acceptance environment.</li><li>Microsoft 365 Excel for Windows calculation, filtering, validation, editing, save/reopen, and printing remain to be accepted on the exact archive.</li><li>Worksheet protection is not certified or enabled in this candidate.</li><li>The illustration and demo are fictional and provide no evidence of savings, shortage reduction, or customer outcomes.</li></ul><div class="caveat">A proposed quantity change is not an approved change, realised saving, cash saving, or guarantee. A responsible reviewer must verify the data, decision, and resulting action.</div></div>
+        </div>
+      </section>
+      <section id="release-gates">
+        <div class="section-head"><h2>Release gates remain visibly closed.</h2><p>Checkout can be enabled only after the exact archive passes product and protection acceptance, the seller and policies are verified, delivery works end to end, and the owner records an explicit activation decision.</p></div>
+        <div class="evidence-box"><ul class="gates">
+          <li class="gate"><span class="tag pass">Recorded</span><p><strong>Automated candidate checks.</strong> The scoped results above are documented for the v2.1 candidate.</p></li>
+          <li class="gate"><span class="tag pending">Pending</span><p><strong>Native Windows Excel acceptance.</strong> Test calculation, filters through 250 requests, validations, intended editing, save/reopen, and printing on the exact customer archive.</p></li>
+          <li class="gate"><span class="tag pending">Pending</span><p><strong>Worksheet-protection validation.</strong> Confirm formulas are protected while intended input tasks remain possible. Protection is an editing safeguard, not a security feature.</p></li>
+          <li class="gate"><span class="tag pending">Pending</span><p><strong>Seller and commerce verification.</strong> Confirm seller identity/account, payout readiness, support contact, policies, tax display, and delivery in test mode.</p></li>
+          <li class="gate"><span class="tag pending">Blocked</span><p><strong>Owner activation and checkout.</strong> Sales remain closed until all prior gates pass and the owner explicitly approves the exact release.</p></li>
+        </ul></div>
+      </section>
+      <section id="resource"><div class="resource"><div><div class="eyebrow">Free practical resource · no sign-up</div><h3>Turnaround material-review preparation checklist</h3><p>Check source ownership, keys, units, comparable history, need dates, supply timing, decision evidence, and handoff before the review meeting.</p></div><a class="action primary" href="turnaround-material-review-checklist.html">Open the checklist</a></div></section>
+      <section id="faq">
+        <div class="section-head"><h2>Frequently asked questions.</h2><p>Direct answers about availability, compatibility, data handling, and responsibility.</p></div>
+        <div class="faq">
+          <details><summary>Can I buy MRO Optix Individual v2.1 now?</summary><p>No. It is a candidate release, not approved for sale. Checkout remains disabled while native Microsoft 365 Excel for Windows acceptance, worksheet-protection validation, seller verification, and delivery checks are pending.</p></details>
+          <details><summary>Does it connect to an ERP?</summary><p>No. There is no live SAP, Maximo, Oracle, or other ERP integration. The workflow uses supplied files and does not write back to an ERP.</p></details>
+          <details><summary>Does the workbook approve engineering changes?</summary><p>No. It supports review and keeps proposed and approved quantities distinct. A responsible person must verify source data and confirm the engineering, procurement, or maintenance action.</p></details>
+          <details><summary>Which Excel environment is targeted?</summary><p>Microsoft 365 Excel for Windows is the target, but native acceptance of the exact archive is still pending. Mac, Excel Online, Google Sheets, and LibreOffice are not certified target environments.</p></details>
+          <details><summary>Is worksheet protection a security feature?</summary><p>No. Protection is not certified or enabled in this candidate. Its intended purpose is to reduce accidental formula edits while allowing intended inputs; it is not access control, confidentiality, or data security.</p></details>
+          <details><summary>Does the product upload operational data?</summary><p>The product files operate locally and do not automatically send workbook data to the seller. This site does not request plant, maintenance, inventory, or engineering uploads. Use only anonymised examples in any future support interaction.</p></details>
+          <details><summary>Does a proposed reduction represent savings?</summary><p>No. A proposed reduction is a review output, not an approved quantity, realised saving, cash saving, or guaranteed outcome.</p></details>
+          <details><summary>Can consultants use one licence across clients?</summary><p>No. The planned Individual licence is for one named user, one organisation, and one named industrial site. Cross-client, multi-user, and multi-site use require separate written terms.</p></details>
         </div>
       </section>
     </main>
-
-    <footer>
-      <span>MRO Optix Individual · Corrected release in verification</span>
-      <span>No employer endorsement, guaranteed savings, or customer data upload claimed.</span>
-    </footer>
+    <footer><span>MRO Optix Individual v2.1 · Candidate release · Sales are not open</span><span>No employer endorsement, customer result, security certification, or guaranteed saving is claimed.</span></footer>
   </div>
 </body>
 </html>
