@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://farajaay.github.io/mro-optix/sitemap.xml
